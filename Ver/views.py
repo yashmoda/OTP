@@ -9,12 +9,12 @@ from SMS.views import send_sms
 
 
 def sotp(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         jsonresponse = {}
         try:
 
 
-            contact = request.GET.get('contact')
+            contact = request.POST.get('contact')
             print contact
             otp = random.randint(100000, 999999)
             try:
