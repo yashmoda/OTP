@@ -11,6 +11,3 @@ class OTP(models.Model):
     phone = models.ForeignKey(UserData, db_column='UserData.id')
     otp = models.BigIntegerField(id(None))
     flag = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.phone

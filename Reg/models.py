@@ -8,7 +8,6 @@ from django.db import models
 
 class UserData(models.Model):
 
-    #name = models.CharField(max_length=20, blank=True, null=True, default=None)
     phone = models.CharField(max_length=10, primary_key=True)
 
     def __str__(self):

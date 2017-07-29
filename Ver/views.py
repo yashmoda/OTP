@@ -5,32 +5,21 @@ import random
 from django.http import JsonResponse
 from Reg.models import UserData
 from Ver.models import OTP
+from SMS.views import send_sms
 
 
 def sotp(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         jsonresponse = {}
         try:
 
-            #name = request.GET.get('name')
-            contact = request.POST.get('contact')
+
+            contact = request.GET.get('contact')
             print contact
             otp = random.randint(100000, 999999)
             try:
                 msg = "Your one time password is " + str(otp)
-                authkey = '125195AnE7snTWFepK5925ea7c'
-                url = 'https://control.msg91.com/api/sendhttp.php?authkey=' + authkey + '&mobiles='
-                url += str(contact)
-                url += '&message=' + msg
-                url += '&sender=' + 'CodeNy' + '&route=4&country=91'
-                print url
-                print requests.request('GET', url)
-                #urllib2.urlopen(url)
-                #requests.get(url).read()
-                #httplib2.Http().request(url)
-                '''req = urllib2.Request(url)
-                response = urllib2.urlopen(req)
-                response.read()'''
+                send_sms(msg, str(contact))
                 print msg
             except Exception as e:
                 print e
@@ -40,8 +29,6 @@ def sotp(request):
                 print e
                 UserData.objects.create(phone=str(contact))
                 user = UserData.objects.get(phone=str(contact))
-            #setattr(user, 'name', name)
-            #user.save()
             try:
                 otp_obj = OTP.objects.get(phone=user)
                 otp_obj.otp = otp
